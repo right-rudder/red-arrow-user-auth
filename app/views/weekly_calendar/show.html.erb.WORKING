@@ -1,0 +1,40 @@
+<!-- Find me in app/views/weekly_calendar/show.html.erb -->
+  <p><strong>Start Date:</strong> <%= params[:start_date] %></p>
+  <p><strong>End Date:</strong> <%= params[:end_date] %></p>
+
+<div class="flex flex-col overflow-auto px-6 py-4">
+      <table class="table table-bordered table-fixed">
+        <thead>
+          <tr class="text-center">
+            <th class="sticky top-0" style="background-color: white; z-index: 1;">Time</th>
+            <%- ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].each do |day| %>
+              <th><%= day %></th>
+            <%- end %>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%- 0.upto(23) do |hour| %>
+            <tr>
+              <td class="text-center sticky left-0 bg-gray-100 border" style="background-color: white; z-index: 1;"><%= hour %>:00</td>
+              <%- ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].each do |day| %>
+                <% events_for_cell = @events.select { |event| event.start_time.hour == hour && event.start_time.strftime("%A") == day } %>
+
+                  <%- empty_slot_class = "" %>
+                  <% if events_for_cell.any? %>
+                    <% events_for_cell.each do |event| %>
+                    <!-- Record found. change coldor -->
+                      <td class="bg-indigo-100 text-indigo-600 text-center border">
+                        <%= "#{event.title}: #{event.start_time} #{event.start_time.strftime('%H:%M')} - #{event.end_time.strftime('%H:%M')}" %>
+                      </td>
+                    <% end %>
+                  <% else %>
+                    <td class="text-center border <%= empty_slot_class %>">Empty</td>
+                  <% end %>
+              <%- end %>  <!-- End Week -->
+            </tr>
+          <%- end %>  <!-- End Hour -->
+        </tbody>
+      </table>
+</div>
+

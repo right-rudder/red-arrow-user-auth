@@ -1,0 +1,66 @@
+<%= form_with(model: event) do |form| %>
+  <% if event.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+        <% event.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :start_time, style: "display: block" %>
+    <%= form.datetime_field :start_time %>
+  </div>
+
+  <div>
+    <%= form.label :end_time, style: "display: block" %>
+    <%= form.datetime_field :end_time %>
+  </div>
+
+  <!--div>
+    <%= form.label :aircraft_id, style: "display: block" %>
+    <%= form.text_field :aircraft_id %>
+  </div -->
+
+  <div>
+    <%= form.label :aircraft_id, 'Aircraft', style: 'display: block' %>
+    <%= form.collection_select :aircraft_id, Aircraft.all, :id, :name, { prompt: 'Select Aircraft' } %>
+  </div>
+
+
+  <!-- div>
+    <%= form.label :instructor_user_id, style: "display: block" %>
+    <%= form.text_field :instructor_user_id %>
+  </div -->
+
+  <div>
+  <%= form.label :instructor_user_id, style: "display: block" %>
+  <%= form.collection_select :instructor_user_id, User.where(is_instructor: true), :id, :full_name, prompt: "Select an instructor" %>
+  </div>
+
+  <!-- div>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.text_field :user_id %>
+  </div -->
+  <div>
+  <% if current_user.is_admin? %>
+    <%= form.label :user_id, 'User', style: 'display: block' %>
+    <%= form.collection_select :user_id, User.all, :id, :full_name, { prompt: 'Select User' } %>
+  <% else %>
+    <%= form.hidden_field :user_id, value: current_user.id %>
+  <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

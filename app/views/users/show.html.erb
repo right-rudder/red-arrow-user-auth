@@ -1,0 +1,41 @@
+<h1>My Profile.</h1>
+
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<hr/>
+<% end %>
+
+<p><strong>First Name:</strong> <%= @user.first_name %></p>
+<p><strong>Middle Initial:</strong> <%= @user.middle_initial %></p>
+<p><strong>Last Name:</strong> <%= @user.last_name %></p>
+<p><strong>Birthday:</strong> <%= @user.birthday %></p>
+<p><strong>Address 1:</strong> <%= @user.address_1 %></p>
+<p><strong>Address 2:</strong> <%= @user.address_2 %></p>
+<p><strong>City:</strong> <%= @user.city %></p>
+<p><strong>State:</strong> <%= @user.state %></p>
+<p><strong>ZipCode:</strong> <%= @user.zip_code %></p>
+<p><strong>Phone:</strong> <%= @user.phone %></p>
+<p><strong>Email:</strong> <%= @user.email %></p>
+<p><strong>Emergency Contact Name:</strong> <%= @user.emergency_contact_name %></p>
+<p><strong>Emergency Contact Number:</strong> <%= @user.emergency_contact_number %></p>
+
+<hr/>
+
+<h2>Bio Credentials</h2>
+<% @user.bio_credentials.each do |bio_credential| %>
+  <p><strong>Bio Short Summary:</strong> <%= bio_credential.bio %></p>
+  <p><strong>License Number:</strong> <%= bio_credential.license_number %></p>
+  <p><strong>License Description:</strong> <%= bio_credential.license_description %></p>
+  <p><strong>Effective Date:</strong> <%= bio_credential.license_effective_date %></p>
+  <p><strong>Expiration Date:</strong> <%= bio_credential.license_expire_date %></p>
+<% end %>
+
+<%= link_to 'Edit My Profile', edit_user_path, class: 'btn btn-primary' %> &nbsp; &nbsp;
+<%= link_to 'Back', root_path, class: 'btn btn-default' %>

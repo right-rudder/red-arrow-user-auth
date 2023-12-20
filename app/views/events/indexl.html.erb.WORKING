@@ -1,0 +1,147 @@
+<%
+# Get the current date
+today = Date.today
+
+# Calculate the start and end dates of the current week
+start_date = today.beginning_of_week
+end_date = today.end_of_week
+
+init_start_date = start_date
+init_end_date = end_date
+
+# Calculate the initial month and year for display
+initial_month_year_display = if start_date.month == end_date.month
+                               start_date.strftime("%B %Y")
+                             else
+                               "#{start_date.strftime("%B %Y")} - #{end_date.strftime("%B %Y")}"
+                             end
+%>
+
+<!-- Start of events/index.html.erb -->
+<p style="color: green"><%= notice %></p>
+<div class="flex flex-col min-h-full">
+  <div class="flex justify-between items-center px-6 py-4 bg-indigo-600">
+    <div class="flex items-center">
+      <h2 class="text-xl font-semibold text-white">Weekly Calendar</h2>
+      <div id="month-year-display" class="text-sm ml-2 text-white">
+        <span><%= initial_month_year_display %></span>
+      </div>
+    </div>
+    <div class="flex items-center">
+      <button class="text-l font-semibold text-white" onclick="previousWeek()">Previous</button>
+      <button class="text-l font-semibold text-white px-4" onclick="nextWeek()">Next</button>
+      <%= link_to "New Event", new_event_path, class: "ext-l font-semibold text-white" %>
+    </div>
+  </div>
+
+  <div class="flex flex-col overflow-auto px-6 py-4">
+    <table class="table table-bordered table-fixed">
+      <thead>
+        <tr class="text-center" id="day-headers">
+          <th class="w-20 h-16 sticky top-0" style="background-color: white; z-index: 1;">Time</th>
+          <% ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].each do |day| %>
+            <th><%= "#{start_date.strftime('%d')} #{day}" %></th>
+            <% start_date = start_date.tomorrow %>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center sticky left-0 bg-gray-100" style="background-color: white; z-index: 1;">&nbsp;</td>
+          <td class="text-center sticky left-0 bg-gray-100" style="background-color: white; z-index: 1;">&nbsp;</td>
+          <td class="text-center sticky left-0 bg-gray-100" style="background-color: white; z-index: 1;">&nbsp;</td>
+          <td class="text-center sticky left-0 bg-gray-100" style="background-color: white; z-index: 1;">&nbsp;</td>
+          <td class="text-center sticky left-0 bg-gray-100" style="background-color: white; z-index: 1;">&nbsp;</td>
+          <td class="text-center sticky left-0 bg-gray-100" style="background-color: white; z-index: 1;">&nbsp;</td>
+          <td class="text-center sticky left-0 bg-gray-100" style="background-color: white; z-index: 1;">&nbsp;</td>
+          <td class="text-center sticky left-0 bg-gray-100" style="background-color: white; z-index: 1;">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <iframe id="weekly-iframe" width="100%" height="400px" src="<%= weekly_calendar_path(start_date: init_start_date, end_date: init_end_date) %>"></iframe>
+    </div>
+</div>
+
+<script>
+  var start_date = new Date("<%= init_start_date %>");
+  var end_date = new Date("<%= init_end_date %>");
+
+  function previousWeek() {
+    // start_date.setDate(start_date.getDate() - 7);
+    start_date.setDate(start_date.getDate());
+    
+    start_date = start_date.previousSunday(); // Custom function to get the previous Sunday
+  // end_date.setDate(end_date.getDate() - 7);
+    end_date.setDate(end_date.getDate());
+  
+    end_date = end_date.previousSaturday(); // Custom function to get the previous Saturday
+    updateDisplay();
+    reloadIframe();
+  }
+
+  function nextWeek() {
+    start_date.setDate(start_date.getDate() + 7);
+    start_date = start_date.nextSunday(); // Custom function to get the next Sunday
+
+    end_date.setDate(end_date.getDate() + 7);
+    end_date = end_date.nextSaturday(); // Custom function to get the next Saturday
+    updateDisplay();
+    reloadIframe();
+  }
+
+  Date.prototype.previousSunday = function () {
+  const date = new Date(this);
+  date.setDate(date.getDate() - date.getDay());
+  return date;
+  };
+
+  Date.prototype.nextSunday = function () {
+  const date = new Date(this);
+  date.setDate(date.getDate() + (7 - date.getDay()));
+  return date;
+  };
+
+  Date.prototype.previousSaturday = function () {
+  const date = new Date(this);
+  date.setDate(date.getDate() - (1 + date.getDay()));
+  return date;
+  };
+
+  Date.prototype.nextSaturday = function () {
+  const date = new Date(this);
+  date.setDate(date.getDate() + (7 - date.getDay()));
+  return date;
+  };
+
+  function reloadIframe() {
+    var iframe = document.getElementById('weekly-iframe');
+
+    // Calculate the start and end dates based on the current start_date
+    var startDateOfWeek = new Date(start_date);
+    startDateOfWeek.setDate(startDateOfWeek.getDate() - startDateOfWeek.getDay() - 1); // Set to the beginning of the week (Sunday)
+    start_date = startDateOfWeek;
+
+    var endDateOfWeek = new Date(startDateOfWeek);
+    endDateOfWeek.setDate(endDateOfWeek.getDate() + 6); // Set to the end of the week
+    // end_date = endDateOfWeek; 
+
+    var formattedStartDate = startDateOfWeek.toISOString().split('T')[0];
+    var formattedEndDate = endDateOfWeek.toISOString().split('T')[0];
+
+    iframe.src = '/weekly_calendar/show?start_date=' + formattedStartDate + '&end_date=' + formattedEndDate;
+  }
+
+  function updateDisplay() {
+    var monthYearDisplay = document.getElementById('month-year-display');
+    monthYearDisplay.innerHTML = start_date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+
+    var dayHeaders = document.getElementById('day-headers');
+    var dayHeaderHTML = '';
+    var tempDate = new Date(start_date);
+    for (var i = 0; i < 7; i++) {
+      dayHeaderHTML += '<th>' + tempDate.toLocaleString('en-US', { day: 'numeric' }) + ' ' + tempDate.toLocaleString('en-US', { weekday: 'long' }) + '</th>';
+      tempDate.setDate(tempDate.getDate() + 1);
+    }
+    dayHeaders.innerHTML = dayHeaderHTML;
+  }
+</script>

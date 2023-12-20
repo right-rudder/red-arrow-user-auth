@@ -1,0 +1,114 @@
+<!-- app/views/admin/users/edit.html.erb -->
+<h1>Edit User</h1>
+
+<%= form_for(@user, url: admin_user_path(@user), method: :patch) do |f| %>
+  <div>
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+     <!-- %= f.text_field :email, readonly: true % -->
+  </div>
+
+  <div class="field">
+        <strong>User Info</strong>
+        <div class="field">
+            <%= f.label :first_name %>
+            <%= f.text_field :first_name, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :middle_initial %>
+            <%= f.text_field :middle_initial, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :last_name %>
+            <%= f.text_field :last_name, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :birthday %>
+            <%= f.date_field :birthday, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :address_1 %>
+            <%= f.text_field :address_1, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :address_2 %>
+            <%= f.text_field :address_2, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :city %>
+            <%= f.text_field :city, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :state %>
+            <%= f.text_field :state, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :zip_code %>
+            <%= f.text_field :zip_code, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :phone %>
+            <%= f.text_field :phone, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :emergency_contact_name %>
+            <%= f.text_field :emergency_contact_name, class: 'form-control' %>
+        </div>
+
+        <div class="field">
+            <%= f.label :emergency_contact_number %>
+            <%= f.text_field :emergency_contact_number, class: 'form-control' %>
+        </div>
+
+  </div>  
+
+  <!-- User Profile checkboxes -->
+  <div class="field">
+    <strong>User Profiles:</strong>
+    <div>
+        <%= f.label :is_student %>
+        <%= f.check_box :is_student %>
+    </div>
+    
+    <div>
+        <%= f.label :is_instructor %>
+        <%= f.check_box :is_instructor %>
+    </div>
+
+    <div>
+        <%= f.label :is_maintenance %>
+        <%= f.check_box :is_maintenance %>
+    </div>
+
+    <div>
+        <%= f.label :is_guest %>
+        <%= f.check_box :is_guest %>
+    </div>
+
+    <div>
+        <%= f.label :is_frontoffice %>
+        <%= f.check_box :is_frontoffice %>
+    </div>
+
+    <div>
+        <%= f.label :is_admin %>
+        <%= f.check_box :is_admin %>
+    </div>
+
+  </div>
+  <div>
+    <%= f.submit 'Update User' %>
+  </div>
+<% end %>
+
+<%= link_to 'Back to User List', admin_users_path %>

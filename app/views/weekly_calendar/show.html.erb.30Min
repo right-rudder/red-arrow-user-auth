@@ -1,0 +1,44 @@
+<!-- Find me in app/views/weekly_calendar/show.html.erb -->
+<!-- uncomment the p tag below to show the input parameters -->
+<p><strong>Start Date:</strong> <%= params[:start_date] %></p>
+<p><strong>End Date:</strong> <%= params[:end_date] %></p>
+
+<div class="flex flex-col overflow-auto px-6 py-4">
+  <table class="table table-bordered table-fixed">
+    <thead>
+      <tr class="text-center">
+        <th class="w-20 h-16 sticky top-0 z-10" style="background-color: white; z-index: 1;">Time</th>
+        <% ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].each do |day| %>
+          <th><%= day %></th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% 0.upto(23) do |hour| %>
+        <% [":00", ":30"].each do |minute| %>
+          <tr>
+            <td class="w-20 h-16 text-center sticky left-0 bg-gray-100 border" style="background-color: white; z-index: 1;">
+              <%= format('%02d', hour) %><%= minute %>
+            </td>
+            <% ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].each do |day| %>
+              <% events_for_cell = @events.select { |event| event.start_time.hour == hour && event.start_time.min == minute.to_i && event.start_time.strftime("%A") == day } %>
+
+              <% empty_slot_class = "" %>
+              <% if events_for_cell.any? %>
+                <% events_for_cell.each do |event| %>
+                  <!-- Record found. change color -->
+                  <td class="w-20 h-16 bg-indigo-100 text-indigo-400 text-center border" rowspan="<%= event_duration_in_hours(event) %>">
+                    <%= "#{event.title}: #{event.start_time.strftime('%H:%M')} - #{event.end_time.strftime('%H:%M')}" %>
+                  </td>
+                <% end %>
+              <% else %>
+                <td class="w-20 h-16 text-center border <%= empty_slot_class %>">&nbsp;</td>
+              <% end %>
+            <% end %> <!-- End Week -->
+          </tr>
+        <% end %><!-- End 30-minute interval -->
+      <% end %> <!-- End Hour -->
+    </tbody>
+  </table>
+</div>
