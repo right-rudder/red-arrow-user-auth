@@ -4,7 +4,9 @@
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
 
-    <%= render @bio_credential %>
+    <!-- %= render @bio_credential % -->
+    <%= render partial: 'bio_credentials/bio_credential', locals: { bio_credential: @bio_credential, show_user_id: true } %>
+ 
 
     <%= link_to "Edit this bio_credential", edit_bio_credential_path(@bio_credential), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">

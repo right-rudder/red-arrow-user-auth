@@ -1,3 +1,9 @@
 <h1 class="text-4xl font-bold underline">
     Hello world!
 </h1>
+
+<% if current_user&.is_admin? %>
+  <%= link_to 'Admin User List', admin_users_path, class: 'btn btn-primary' %>
+  <br/>
+  <%= link_to 'Bio Credential List', bio_credentials_path, class: 'btn btn-primary' %>
+<% end %>

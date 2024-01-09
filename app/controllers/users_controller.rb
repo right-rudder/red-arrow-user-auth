@@ -19,7 +19,6 @@ class UsersController < ApplicationController
           render 'edit'  # Stay on the edit page and display validation errors
         end
     end
-  
 
    def set_user
     @user = current_user

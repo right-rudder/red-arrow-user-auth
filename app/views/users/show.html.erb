@@ -1,4 +1,10 @@
-<h1>My Profile.</h1>
+<% if @user == current_user %>
+  <h1>My Profile</h1> 
+  <%= link_to 'Edit My Profile', edit_user_path, class: 'btn btn-primary' %>
+<% elsif current_user&.is_admin? %>
+  <h1>User Profile</h1>
+  <%= link_to 'Edit User Profile', edit_admin_user_path(@user), class: 'btn btn-primary' %>
+<% end %>
 
 <% if @user.errors.any? %>
   <div id="error_explanation">
@@ -35,7 +41,12 @@
   <p><strong>License Description:</strong> <%= bio_credential.license_description %></p>
   <p><strong>Effective Date:</strong> <%= bio_credential.license_effective_date %></p>
   <p><strong>Expiration Date:</strong> <%= bio_credential.license_expire_date %></p>
-<% end %>
 
-<%= link_to 'Edit My Profile', edit_user_path, class: 'btn btn-primary' %> &nbsp; &nbsp;
-<%= link_to 'Back', root_path, class: 'btn btn-default' %>
+   <%= link_to 'Edit Bio Credential', edit_bio_credential_path(bio_credential), class: 'btn btn-primary' %>
+
+  <hr/>
+<% end %>
+<%= link_to 'Add Bio Credential', new_bio_credential_path, class: 'btn btn-primary' %>
+&nbsp; | &nbsp; 
+<%= link_to 'Back', 'javascript:history.back()', class: 'btn btn-default' %>
+

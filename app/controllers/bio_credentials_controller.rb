@@ -2,8 +2,16 @@ class BioCredentialsController < ApplicationController
   before_action :set_bio_credential, only: %i[ show edit update destroy ]
 
   # GET /bio_credentials or /bio_credentials.json
+  #def index
+  #  @bio_credentials = BioCredential.all
+  # end
+
   def index
-    @bio_credentials = BioCredential.all
+    @bio_credentials = BioCredential.includes(:user).all
+    if params[:role].present?
+      role = params[:role]
+      @bio_credentials = @bio_credentials.select { |credential| credential.user.public_send("is_#{role}") }
+    end
   end
 
   # GET /bio_credentials/1 or /bio_credentials/1.json

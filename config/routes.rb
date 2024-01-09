@@ -19,6 +19,12 @@ Rails.application.routes.draw do
   namespace :admin do
      # Add ADMIN routes  example below
     resources :users, only: [:index, :edit, :update]
+
+    resources :users do
+      member do
+        get 'show_user_profile'
+      end
+    end
   end
 
   # Add a route for the user profile

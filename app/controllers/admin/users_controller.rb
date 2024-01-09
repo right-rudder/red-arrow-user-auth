@@ -24,6 +24,11 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  def show_user_profile
+    @user = User.find(params[:id])
+    render 'users/show'
+  end
+
   private
 
   def set_user
