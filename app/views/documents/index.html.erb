@@ -4,24 +4,41 @@
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
 
- <% if current_user&.is_admin? %>
+  <%if current_user&.is_guest?%> 
+    <div class="flex justify-between items-center">
+    <p class="center">
+      Your member signup request has been sent and is awaiting approval. <br/> 
+      The site administrator will notify you via email (<%= current_user.email %>) once your request has been approved. <br/>
+      For the meantime if you have not completed your profile, click  
+        <%= link_to 'HERE', edit_user_path(@user), class: 'italic' %> to update.
+    </p>
+    </div>
+  <%end %>
+
   <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Documents</h1>
-    <%= link_to "New document", new_document_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <h1 class="font-bold text-3xl">Documents</h1>
+    <% if current_user&.is_admin? || current_user&.is_frontoffice? %>
+        <%= link_to "New document", new_document_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    <% end %>
   </div>
-  <% end %>
 
   <div>
- <% @documents.each do |doc| %>
-    
- <%= link_to doc.name, doc.location, class: 'rounded-lg py-3 px-5 bg-red-100 inline-block font-medium', title: doc.description %>
-
-    <% if action_name != "show"  &&  current_user&.is_admin? %>
-    <%= link_to "Attributes", doc, class: "text-sm font-italic text-blue-500" %>
-    <%= link_to "Edit", edit_document_path(doc), class: "text-sm font-italic text-blue-500" %>
-    <hr class="mt-6">
-  <% end %>
-
+    <% @documents.each do |doc| %>
+      <% if current_user&.is_admin? ||
+            current_user&.is_frontoffice? ||
+            current_user&.is_guest = doc.is_guest ||
+            current_user&.is_instructor = doc.is_instructor ||
+            current_user&.is_student = doc.is_student ||
+            current_user&.is_dispatcher = doc.is_dispatcher ||
+            current_user&.is_maintenance = doc.is_maintenance || 
+      %> 
+          <%= link_to doc.name, doc.location, class: 'rounded-lg py-3 px-5 bg-red-100 inline-block font-medium', title: doc.description %>
+      <% end %>
+      <% if action_name != "show"  &&  current_user&.is_admin? %>
+          <%= link_to "Attributes", doc, class: "text-sm font-italic text-blue-500" %>
+          <%= link_to "Edit", edit_document_path(doc), class: "text-sm font-italic text-blue-500" %>
+        <hr class="mt-6">
+      <% end %>
     <% end %>
   </div>
 </div>

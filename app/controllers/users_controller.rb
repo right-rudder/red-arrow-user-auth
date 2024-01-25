@@ -3,6 +3,7 @@ class UsersController < ApplicationController
     before_action :authenticate_user! # Ensure the user is authenticated
   
     def show
+       # Rails.logger.info("User Show in User Controller")
         @user = current_user
     end
 

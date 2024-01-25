@@ -1,6 +1,7 @@
 class DocumentsController < ApplicationController
   before_action :authenticate_user! # Ensure the user is authenticated
   before_action :set_document, only: %i[ show edit update destroy ]
+  before_action :check_permissions, except: %i[index show]
 
   # GET /documents or /documents.json
   def index
@@ -67,5 +68,12 @@ class DocumentsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def document_params
       params.require(:document).permit(:name, :description, :location, :hide, :is_instructor, :is_student, :is_maintenance, :is_frontoffice, :is_dispatcher, :is_guest)
+    end
+
+    # Check if the user is an admin
+    def check_permissions
+      unless current_user.is_admin? || current_user.is_frontoffice? 
+        redirect_to documents_path, alert: 'You do not have permission to perform this action.'
+      end
     end
 end

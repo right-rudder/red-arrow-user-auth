@@ -5,11 +5,13 @@
     <% end %>
 
     <%= render @document %>
-
+    <% if current_user&.is_admin? || current_user&.is_frontoffice? %>
+  
     <%= link_to "Edit this document", edit_document_path(@document), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
     <div class="inline-block ml-2">
       <%= button_to "Destroy this document", document_path(@document), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
     </div>
-    <%= link_to "Back to documents", documents_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <% end %>
+    <%= link_to "Back to documents", documents_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %> 
   </div>
 </div>

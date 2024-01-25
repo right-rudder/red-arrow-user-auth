@@ -13,45 +13,46 @@
     <strong class="block font-medium mb-1">Location:</strong>
     <%= document.location %>
   </p>
+  <% if current_user&.is_admin? || current_user&.is_frontoffice? %>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Hide:</strong>
+        <%= document.hide %>
+      </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Hide:</strong>
-    <%= document.hide %>
-  </p>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Is instructor:</strong>
+        <%= document.is_instructor %>
+      </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Is instructor:</strong>
-    <%= document.is_instructor %>
-  </p>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Is student:</strong>
+        <%= document.is_student %>
+      </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Is student:</strong>
-    <%= document.is_student %>
-  </p>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Is maintenance:</strong>
+        <%= document.is_maintenance %>
+      </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Is maintenance:</strong>
-    <%= document.is_maintenance %>
-  </p>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Is frontoffice:</strong>
+        <%= document.is_frontoffice %>
+      </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Is frontoffice:</strong>
-    <%= document.is_frontoffice %>
-  </p>
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Is dispatcher:</strong>
+        <%= document.is_dispatcher %>
+      </p>
 
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Is dispatcher:</strong>
-    <%= document.is_dispatcher %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Is guest:</strong>
-    <%= document.is_guest %>
-  </p>
-
-  <% if action_name != "show" %>
-    <%= link_to "Show this document", document, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Edit this document", edit_document_path(document), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-    <hr class="mt-6">
+      <p class="my-5">
+        <strong class="block font-medium mb-1">Is guest:</strong>
+        <%= document.is_guest %>
+      </p>
+    
+      <% if action_name != "show" %>
+        <%= link_to "Show this document", document, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+        <%= link_to "Edit this document", edit_document_path(document), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+        <hr class="mt-6">
+      <% end %>
   <% end %>
 </div>

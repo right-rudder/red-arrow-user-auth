@@ -13,8 +13,10 @@ Rails.application.routes.draw do
   get 'weekly_calendar/show'
   resources :aircrafts
   resources :events
-  devise_for :users
-  
+  devise_for :users, controllers: { 
+      registrations: "registrations/registrations" 
+  }
+
   root to: "home#index"
 
   namespace :admin do
