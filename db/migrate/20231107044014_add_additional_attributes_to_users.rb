@@ -12,11 +12,5 @@ class AddAdditionalAttributesToUsers < ActiveRecord::Migration[7.1]
     add_column :users, :phone, :string
     add_column :users, :emergency_contact_name, :string
     add_column :users, :emergency_contact_number, :string
-   # add_column :users, :admin, :boolean
-   # add_column :users, :instructor, :boolean
-   # add_column :users, :student, :boolean
-   # add_column :users, :maintenance, :boolean
-   # add_column :users, :front_desk, :boolean
-   # add_column :users, :guest, :boolean
   end
 end

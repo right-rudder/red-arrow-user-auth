@@ -6,12 +6,13 @@
       <th>ID</th>
       <th>Email</th>
       <th>Name</th>
+      <th>Approved</th>
       <th>Student</th>
-      <th>Instructor</th>
+      <!-- th>Instructor</th>
       <th>Maintenance</th>
       <th>Guest</th>
       <th>Front Desk</th>
-      <th>Dispatcher</th>
+      <th>Dispatcher</th -->
       <th>Admin</th>
       <th>Actions</th>
     </tr>
@@ -22,12 +23,13 @@
         <td><%= user.id %></td>
         <td><%= user.email %></td>
         <td><%= user.first_name %> <%= user.middle_initial %> <%= user.last_name %></td>
+        <td><%= user.is_approved ? 'Yes' : 'No' %></td>
         <td><%= user.is_student ? 'Yes' : 'No' %></td>
-        <td><%= user.is_instructor ? 'Yes' : 'No' %></td>
+        <!-- td><%= user.is_instructor ? 'Yes' : 'No' %></td>
         <td><%= user.is_maintenance ? 'Yes' : 'No' %></td>
         <td><%= user.is_guest ? 'Yes' : 'No' %></td>     
         <td><%= user.is_frontoffice ? 'Yes' : 'No' %></td>   
-        <td><%= user.is_dispatcher ? 'Yes' : 'No' %></td>   
+        <td><%= user.is_dispatcher ? 'Yes' : 'No' %></td -->   
         <td><%= user.is_admin ? 'Yes' : 'No' %></td>
         <td>
           <%= link_to 'Edit', edit_admin_user_path(user) %>

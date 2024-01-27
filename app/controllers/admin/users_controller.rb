@@ -11,14 +11,24 @@ class Admin::UsersController < ApplicationController
 
   def index
     @users = User.all
+    @unapproved_users = User.where(approved: false)
   end
 
   def edit
   end
 
   def update
+    @user = User.find(params[:id])
+    was_not_approved = !@user.is_approved
+    msg = "User "
     if @user.update(user_params)
-      redirect_to admin_users_path, notice: 'User updated successfully.'
+      if was_not_approved && @user.is_approved
+        msg += ' approved and '
+        # Send approval email to the user
+        UserMailer.account_approval(@user).deliver_now
+      end
+      msg += ' updated successfully.'
+      redirect_to admin_users_path, notice: msg 
     else
       render :edit
     end
@@ -37,7 +47,7 @@ class Admin::UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :is_admin, :is_student, :is_instructor, 
-                  :is_guest, :is_maintenance, :is_frontoffice, :is_dispatcher,
+                  :is_guest, :is_maintenance, :is_frontoffice, :is_dispatcher, :is_approved,
                   :first_name, :middle_initial, :last_name,
                   :birthday, :address_1, :address_2, :city, :state, :zip_code, :phone, 
                   :emergency_contact_name, :emergency_contact_number

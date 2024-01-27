@@ -5,7 +5,8 @@ ruby "3.1.2"
 gem "devise"
 # gem "rails-ujs"
 gem "icalendar"
-gem 'tailwindcss-rails'
+gem "tailwindcss-rails"
+gem "dotenv-rails", groups: [:development, :production]
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.1"
