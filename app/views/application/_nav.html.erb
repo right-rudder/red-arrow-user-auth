@@ -15,26 +15,26 @@
 <nav class="flex items-center justify-between flex-wrap bg-white p-6 shadow-md">
   <div class="flex items-center flex-shrink-0">
     <%= link_to root_path do %>
-    <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+      <%= image_tag "red-arrow-logo.webp", alt: "RED ARROW LOGO", class: "h-15 w-40 lg:w-48 top-0"%>
     <% end %>
-    <h1 class="ml-4 font-semibold text-xl tracking-tight text-gray-900">Right Rudder System</h1>
+    <h1 class="ml-4 font-semibold text-xl tracking-tight text-gray-900">STUDENT PORTAL</h1>
   </div>
 
   <ul class="flex flex-row flex-wrap basis-auto">
    <% if user_signed_in? %>
     <li>
-       <%= link_to "Schedule", events_path, class: "font-medium text-gray-900 no-underline rounded-md p-2 hover:bg-gray-100" %> 
+       <%= link_to "Schedule", events_path, class: "font-medium text-gray-900 no-underline rounded-md p-2 hover:bg-gray-100 hover:text-main-red" %> 
     </li>
     <li>
-       <%= link_to "Documents", documents_path, class: "font-medium text-gray-900 no-underline rounded-md p-2 hover:bg-gray-100" %> 
+       <%= link_to "Documents", documents_path, class: "font-medium text-gray-900 no-underline rounded-md p-2 hover:bg-gray-100 hover:text-main-red" %> 
     <li>
-      <a href="#" class="font-medium text-gray-900 no-underline rounded-md p-2 hover:bg-gray-100">Accounts</a>
+      <a href="#" class="font-medium text-gray-900 no-underline rounded-md p-2 hover:bg-gray-100 hover:text-main-red">Accounts</a>
     </li>
     <li>
-      <a href="#" class="font-medium text-gray-900 no-underline rounded-md p-2 hover:bg-gray-100">Maintenance</a>
+      <a href="#" class="font-medium text-gray-900 no-underline rounded-md p-2 hover:bg-gray-100 hover:text-main-red">Maintenance</a>
     </li>
     <li>
-      <a href="#" class="font-medium text-gray-900 no-underline rounded-md p-2 hover:bg-gray-100">Administration</a>
+      <a href="#" class="font-medium text-gray-900 no-underline rounded-md p-2 hover:bg-gray-100 hover:text-main-red">Administration</a>
     </li>
     <% else %>
     <li>&nbsp;</li>
@@ -47,17 +47,17 @@
         &nbsp; &nbsp;
       </span>
 
-        <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "mr-4 font-small text-gray-500 no-underline rounded-md p-2 hover:bg-gray-100" %> 
+        <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "mr-4 font-small text-gray-500 no-underline rounded-md p-2 hover:bg-gray-100 hover:text-main-red" %> 
     
         <%else%>
 
-      <span class="mr-4 font-small text-gray-500 no-underline rounded-md p-2 hover:bg-gray-100">
+      <span class="mr-4 font-small text-gray-500 no-underline rounded-md p-2 hover:bg-gray-100 hover:text-main-red">
           <%= link_to "Sign in", new_user_session_path %> 
           &nbsp;
       </span>
       <span class="text-black-500">|</span>
 
-        <%= link_to "Sign up", new_user_registration_path, class: "ml-4 font-small text-gray-500 no-underline rounded-md p-2 hover:bg-gray-100" %>
+        <%= link_to "Sign up", new_user_registration_path, class: "ml-4 font-small text-gray-500 no-underline rounded-md p-2 hover:bg-gray-100 hover:text-main-red" %>
         <% end %>
   </div>
 </nav>

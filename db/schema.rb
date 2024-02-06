@@ -11,56 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_01_26_060745) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
-    t.integer "status", default: 0, null: false
-    t.string "message_id", null: false
-    t.string "message_checksum", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
-  end
-
-  create_table "action_text_rich_texts", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "body"
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
-  end
-
-  create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
-    t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
-    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
-    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
-  end
-
-  create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.string "service_name", null: false
-    t.bigint "byte_size", null: false
-    t.string "checksum"
-    t.datetime "created_at", null: false
-    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
-  end
-
-  create_table "active_storage_variant_records", force: :cascade do |t|
-    t.bigint "blob_id", null: false
-    t.string "variation_digest", null: false
-    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
-  end
-
   create_table "aircrafts", force: :cascade do |t|
     t.string "name"
     t.string "model"
@@ -76,7 +26,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_060745) do
     t.text "license_description"
     t.date "license_effective_date"
     t.date "license_expire_date"
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_bio_credentials_on_user_id"
@@ -101,24 +51,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_060745) do
     t.string "title"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "aircraft_id", null: false
+    t.integer "aircraft_id", null: false
     t.bigint "instructor_user_id"
     t.index ["aircraft_id"], name: "index_events_on_aircraft_id"
     t.index ["user_id"], name: "index_events_on_user_id"
-  end
-
-  create_table "instructors", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.text "bio"
-    t.string "license_name"
-    t.date "license_expiration"
-    t.string "photo"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_instructors_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -129,9 +68,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_060745) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "first_name"
+    t.string "first_name", default: "Guest"
     t.string "middle_initial"
-    t.string "last_name"
+    t.string "last_name", default: "User"
     t.date "birthday"
     t.string "address_1"
     t.string "address_2"
@@ -153,10 +92,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_060745) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bio_credentials", "users"
   add_foreign_key "events", "aircrafts"
   add_foreign_key "events", "users"
-  add_foreign_key "instructors", "users"
 end
