@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_01_26_060745) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "aircrafts", force: :cascade do |t|
     t.string "name"
     t.string "model"
@@ -26,7 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_060745) do
     t.text "license_description"
     t.date "license_effective_date"
     t.date "license_expire_date"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_bio_credentials_on_user_id"
@@ -51,10 +54,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_26_060745) do
     t.string "title"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "aircraft_id", null: false
+    t.bigint "aircraft_id", null: false
     t.bigint "instructor_user_id"
     t.index ["aircraft_id"], name: "index_events_on_aircraft_id"
     t.index ["user_id"], name: "index_events_on_user_id"
